@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/AyeshaaAyub/datarouter/pkg/classifier"
-	"github.com/AyeshaaAyub/datarouter/proto/storage" // Generated
+	"github.com/AyeshaaAyub/datarouter/proto/storage.proto" // Generated
 
 	"google.golang.org/grpc"
 )
