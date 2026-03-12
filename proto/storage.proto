@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+package storage;
+
+message Data {
+    map<string, bytes> fields = 1;  // Flexible: bytes for any type
+}
+
+message StoreRequest {
+    Data data = 1;
+    string collection = 2;  // Table/collection name
+}
+
+message StoreResponse {
+    string id = 1;
+    string db_type = 2;
+}
+
+service StorageHandler {
+    rpc Store(StoreRequest) returns (StoreResponse);
+}
