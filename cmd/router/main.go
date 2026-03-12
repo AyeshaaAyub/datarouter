@@ -5,28 +5,28 @@ import (
 	"net/http"
 
 	"github.com/AyeshaaAyub/datarouter/pkg/classifier"
-	"github.com/AyeshaaAyub/datarouter/proto/storage.proto" // Generated
+	"github.com/AyeshaaAyub/datarouter/proto" // Generated
 
 	"google.golang.org/grpc"
 )
 
 type Router struct {
-	handlers map[classifier.DBType]storage.StorageHandlerClient
+	handlers map[classifier.DBType]proto.StorageHandlerClient
 }
 
 func NewRouter() *Router {
 	// Connect to handlers via gRPC (addresses from env/config)
 	return &Router{
-		handlers: map[classifier.DBType]storage.StorageHandlerClient{
+		handlers: map[classifier.DBType]proto.StorageHandlerClient{
 			classifier.DBPostgres: connectGRPC("localhost:50051"),
 			// Add others
 		},
 	}
 }
 
-func connectGRPC(addr string) storage.StorageHandlerClient {
+func connectGRPC(addr string) proto.StorageHandlerClient {
 	conn, _ := grpc.Dial(addr, grpc.WithInsecure())
-	return storage.NewStorageHandlerClient(conn)
+	return proto.NewStorageHandlerClient(conn)
 }
 
 // HTTP Handler for ingestion
@@ -41,8 +41,8 @@ func (r *Router) storeHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// resp, err := handler.Store(context.Background(), &storage.StoreRequest{
-	_, err := handler.Store(context.Background(), &storage.StoreRequest{
+	// resp, err := handler.Store(context.Background(), &proto.StoreRequest{
+	_, err := handler.Store(context.Background(), &proto.StoreRequest{
 		Data:       marshalData(data), // Convert to proto
 		Collection: "default",         // From query param
 	})
