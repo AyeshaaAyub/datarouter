@@ -5,12 +5,12 @@ option go_package = "github.com/AyeshaaAyub/datarouter/proto";
 package storage;
 
 message Data {
-    map<string, bytes> fields = 1;  // Flexible: bytes for any type
+    map<string, bytes> fields = 1;
 }
 
 message StoreRequest {
     Data data = 1;
-    string collection = 2;  // Table/collection name
+    string collection = 2;
 }
 
 message StoreResponse {
@@ -18,6 +18,17 @@ message StoreResponse {
     string db_type = 2;
 }
 
+message RetrieveRequest {
+    string id = 1;
+    string collection = 2;
+}
+
+message RetrieveResponse {
+    Data data = 1;
+    string db_type = 2;
+}
+
 service StorageHandler {
     rpc Store(StoreRequest) returns (StoreResponse);
+    rpc Retrieve(RetrieveRequest) returns (RetrieveResponse);
 }

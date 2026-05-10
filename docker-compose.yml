@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: datarouter-mongo
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+
+  redis:
+    image: redis:latest
+    container_name: datarouter-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  influxdb:
+    image: influxdb:2.0
+    container_name: datarouter-influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: password
+      DOCKER_INFLUXDB_INIT_ORG: example-org
+      DOCKER_INFLUXDB_INIT_BUCKET: datarouter
+      DOCKER_INFLUXDB_INIT_TOKEN: my-token
+    restart: unless-stopped
